@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Применить"
+            android:id="@+id/button"
+            android:onClick="SaveImage" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Восстановить"
+            android:onClick="ResetImage"
+            android:id="@+id/button16"
+            android:layout_row="0"
+            android:layout_column="10" />
+    </GridLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imagePreview"
+        android:layout_weight="0.82"
+        android:scaleType="fitCenter"
+        android:fadeScrollbars="false" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:id="@+id/horizontalScrollView">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="123dp"
+                android:layout_height="match_parent"
+                android:text="Размытие"
+                android:id="@+id/button9"
+                android:onClick="BlurFilter" />
+
+            <Button
+                android:layout_width="161dp"
+                android:layout_height="match_parent"
+                android:text="Обнаружение границ"
+                android:id="@+id/button10"
+                android:onClick="EdgeFilter" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Яркость"
+                android:id="@+id/button23"
+                android:onClick="BrightnessFilter" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Контраст"
+                android:id="@+id/button24"
+                android:onClick="Contrast" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Положение слоя"
+                android:id="@+id/button12"
+                android:onClick="SetPos" />
+
+            <Button
+                android:layout_width="127dp"
+                android:layout_height="match_parent"
+                android:text="Черно-белое"
+                android:id="@+id/button22"
+                android:onClick="BlackAndWhite" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Цвет"
+                android:id="@+id/button11"
+                android:onClick="ColorBalance" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>

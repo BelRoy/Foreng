@@ -1,0 +1,13 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+
+    </style>
+    <style name="ListViewForeng" parent="android:Widget.ListView">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">20px</item>
+
+    </style>
+</resources>
