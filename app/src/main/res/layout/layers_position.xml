@@ -4,46 +4,62 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <GridLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="43dp">
+        android:layout_height="match_parent">
 
-        <Button
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:id="@+id/gridLayout">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сохранить"
+                android:id="@+id/button20"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:onClick="SaveTransform" />
+
+        </GridLayout>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Сохранить"
-            android:id="@+id/button20"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Альфа-канал"
+            android:id="@+id/textView7"
             android:layout_row="0"
-            android:layout_column="0"
-            android:onClick="SaveTransform" />
+            android:layout_column="15"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    </GridLayout>
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/alphaSeek"
+            android:layout_row="1"
+            android:layout_column="15"
+            android:maxWidth="0dp"
+            android:progress="255"
+            android:max="255"
+            android:layout_below="@+id/gridLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Альфа-канал"
-        android:id="@+id/textView7"
-        android:layout_row="0"
-        android:layout_column="15" />
-
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/alphaSeek"
-        android:layout_row="1"
-        android:layout_column="15"
-        android:maxWidth="0dp"
-        android:progress="255"
-        android:max="255" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="483dp"
-        android:id="@+id/imageView3"
-        android:src="@drawable/forest"
-        android:layout_column="15"
-        android:layout_row="2" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="483dp"
+            android:id="@+id/imageView3"
+            android:src="@drawable/forest"
+            android:layout_column="15"
+            android:layout_row="2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/alphaSeek" />
+    </RelativeLayout>
 
 </LinearLayout>

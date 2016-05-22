@@ -3,7 +3,8 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="#010101">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -16,24 +17,26 @@
         android:scaleType="fitCenter"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#f4f4f4"
+        android:background="#010101"
         android:adjustViewBounds="false"
         android:baselineAlignBottom="false"
         android:visibility="visible"
-        android:layout_above="@+id/imageButton"
-        android:onClick="ImageTouch" />
+        android:onClick="ImageTouch"
+        android:layout_alignBottom="@+id/imageButton" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Открыть"
+        android:text="Добавить"
         android:id="@+id/button2"
         android:onClick="openGallery"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_row="0"
-        android:layout_column="0" />
+        android:layout_column="0"
+        android:singleLine="false"
+        style="@android:style/Widget.DeviceDefault.Button" />
 
     <Button
         android:layout_width="wrap_content"
@@ -43,9 +46,12 @@
         android:onClick="ScalePositive"
         android:layout_row="0"
         android:layout_column="4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/button15" />
+        android:layout_alignBaseline="@+id/button19"
+        android:layout_alignBottom="@+id/button19"
+        android:layout_toLeftOf="@+id/imageButton"
+        android:layout_toStartOf="@+id/imageButton"
+        style="@android:style/Widget.DeviceDefault.Button"
+        android:visibility="invisible" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -55,17 +61,9 @@
         android:onClick="goToLayerManager"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Refresh"
-        android:id="@+id/button15"
-        android:onClick="RefreshButton"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/button19"
-        android:layout_alignEnd="@+id/button19" />
+        android:layout_alignEnd="@+id/imageView"
+        style="@android:style/Widget.DeviceDefault.Light.Button"
+        android:background="#ffffff" />
 
     <WebView
         android:layout_width="wrap_content"
@@ -84,8 +82,10 @@
         android:layout_height="wrap_content"
         android:text="Full Screen"
         android:id="@+id/button19"
-        android:layout_above="@+id/imageView"
-        android:layout_toRightOf="@+id/button3"
-        android:layout_toEndOf="@+id/button3" />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/button2"
+        android:layout_toEndOf="@+id/button2"
+        style="@android:style/Widget.DeviceDefault.Button"
+        android:visibility="invisible" />
 
 </RelativeLayout>

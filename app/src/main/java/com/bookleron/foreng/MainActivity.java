@@ -15,6 +15,7 @@ import android.graphics.ColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -22,8 +23,10 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SlidingDrawer;
@@ -95,8 +98,10 @@ public class MainActivity extends Activity {
     WebView currentWebView;
     Mat currentMat,outMat,kernel,kernel2,prevImage;
     Bitmap image;
+    private ScaleGestureDetector scaleDetector;
     static final private int FILE_MANAGER_ACTIVITY = 1; //код для окна выбора файлов
     static final private int RESULT_FROM_GALLERY = 2;
+    float ScaleValue = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,7 +135,7 @@ public class MainActivity extends Activity {
         SlidingMenu slideMenu = new SlidingMenu(this);
         slideMenu.setMode(SlidingMenu.LEFT);
         slideMenu.setBehindWidthRes(R.dimen.slidemenu_behind_width);
-        slideMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        slideMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         slideMenu.setMenu(R.layout.slidemenu);
         slideMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
@@ -425,11 +430,11 @@ public class MainActivity extends Activity {
      //   Imgproc.resize(currentMat,outMat,Si,0.5,0.5,Imgproc.INTER_LINEAR);
         Utils.matToBitmap(outMat, image);
        currentImage.setImageBitmap(image);*/
-
+        ScaleValue +=0.5;
         Mat temp;
         temp = new Mat();
         temp = LayerList.RenderImage();
-        Size size = new Size(temp.cols()*1.5,temp.rows()*1.5);
+        Size size = new Size(temp.cols()*ScaleValue,temp.rows()*ScaleValue);
         Imgproc.resize(temp, temp, size);
 
         Bitmap temp2 = Bitmap.createBitmap(temp.cols(), temp.rows(), Bitmap.Config.ARGB_8888);
@@ -503,15 +508,16 @@ public class MainActivity extends Activity {
         temp1 = BitmapFactory.decodeResource(res,R.drawable.text5598);
         currentImage.setImageBitmap(temp1);
     }
-    public void SaveImageResult(View view){
-    /*    Mat renderMat =  LayerList.RenderImage();
-        Bitmap temp =  Bitmap.createBitmap(renderMat.cols(),renderMat.rows(),Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(renderMat,temp);*/
+/*    public void SaveImageResult(View view){
+
+        Button saveButton = (Button) findViewById(R.id.saveImageButton);
+        saveButton.setText("Идет сохранение...");
         BitmapDrawable draw = (BitmapDrawable) currentImage.getDrawable();
         Bitmap temp = draw.getBitmap();
     //    File sdCard = Environment.getExternalStorageDirectory();
         File sdCard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = new File(sdCard,"test.png");//создание файла
+        double nameRand = Math.random();
+        File image = new File(sdCard,"image"+nameRand+".png");//создание файла
 
         boolean success = false;
 
@@ -548,12 +554,153 @@ public class MainActivity extends Activity {
 
             //вызов подсказки
             Toast.makeText(getApplicationContext(),"Image success saved",Toast.LENGTH_LONG).show();
+            saveButton.setText("Сохранить");
         }
         else{
             Toast.makeText(getApplicationContext(),"Something was wrong",Toast.LENGTH_LONG).show();
         }
 
+    }*/
+public void SaveImageResult(View view){
+
+    Button saveButton = (Button) findViewById(R.id.saveImageButton);
+    saveButton.setText("Идет сохранение...");
+    saveButton.setEnabled(false);
+
+  //  Thread thread = new Thread(null,doBackgroundThreadProcessing,"SaveImage");
+   // thread.start();
+    SaveTask saveTask = new SaveTask();
+    saveTask.execute();
+
+}
+    class SaveTask extends AsyncTask<Void,Void,Void>{
+        Button saveButton;
+        BitmapDrawable draw;
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            saveButton = (Button) findViewById(R.id.saveImageButton);
+            draw = (BitmapDrawable) currentImage.getDrawable();
+        }
+        @Override
+        protected Void doInBackground(Void... params){
+            Log.e("FORENG RUN","THREAD IS RUN");
+
+            Bitmap temp = draw.getBitmap();
+            //    File sdCard = Environment.getExternalStorageDirectory();
+            File sdCard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            double nameRand = Math.random();
+            File image = new File(sdCard,"image"+nameRand+".png");//создание файла
+
+            boolean success = false;
+
+            String filePath = image.getPath();
+
+            FileOutputStream outStream;
+            //  MediaStore.Images.Media.insertImage(getContentResolver(),temp,"image1.png","Created by Foreng");
+
+            success = true;
+            try {
+                outStream = new FileOutputStream(image);
+                temp.compress(Bitmap.CompressFormat.PNG, 100, outStream); //100 - полное качество
+
+                outStream.flush();
+                outStream.close();
+
+                success = true;
+                //   MediaStore.Images.Media.insertImage(getContentResolver(), sdCard.toString() +"test.png","test","test");
+            } catch (FileNotFoundException e){
+                e.printStackTrace();
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+
+            if(success){
+                //добавление изображения в галерею
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                values.put(MediaStore.MediaColumns.DATA, filePath);
+
+                getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+                //вызов подсказки
+                return null;
+
+            }
+            else{
+              //  Toast.makeText(getApplicationContext(),"Something was wrong",Toast.LENGTH_LONG).show();
+                return null;
+            }
+         //   return null;
+        }
+        @Override
+        protected void onPostExecute(Void result){
+            super.onPostExecute(result);
+            Toast.makeText(getApplicationContext(),"Image success saved",Toast.LENGTH_LONG).show();
+            saveButton.setText("Сохранить");
+            saveButton.setEnabled(true);
+        }
     }
+    public Runnable doBackgroundThreadProcessing = new Runnable() {
+        @Override
+        public void run() {
+            SaveImageProcess();
+        }
+    };
+    public void SaveImageProcess(){
+        Log.e("FORENG RUN","THREAD IS RUN");
+        Button saveButton = (Button) findViewById(R.id.saveImageButton);
+        BitmapDrawable draw = (BitmapDrawable) currentImage.getDrawable();
+        Bitmap temp = draw.getBitmap();
+        //    File sdCard = Environment.getExternalStorageDirectory();
+        File sdCard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        double nameRand = Math.random();
+        File image = new File(sdCard,"image"+nameRand+".png");//создание файла
+
+        boolean success = false;
+
+        String filePath = image.getPath();
+
+        FileOutputStream outStream;
+        //  MediaStore.Images.Media.insertImage(getContentResolver(),temp,"image1.png","Created by Foreng");
+
+        success = true;
+        try {
+            outStream = new FileOutputStream(image);
+            temp.compress(Bitmap.CompressFormat.PNG, 100, outStream); //100 - полное качество
+
+            outStream.flush();
+            outStream.close();
+
+            success = true;
+            //   MediaStore.Images.Media.insertImage(getContentResolver(), sdCard.toString() +"test.png","test","test");
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+        if(success){
+            //добавление изображения в галерею
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            values.put(MediaStore.MediaColumns.DATA, filePath);
+
+            getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+
+            //вызов подсказки
+            Toast.makeText(getApplicationContext(),"Image success saved",Toast.LENGTH_LONG).show();
+            saveButton.setText("Сохранить");
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Something was wrong",Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     public void goToLayerManager(View view) {
         Intent layerManager = new Intent(MainActivity.this,LayerManager.class);

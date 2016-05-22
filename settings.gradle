@@ -1,1 +1,1 @@
-include ':app',':app:libs:OpenCV','app:libs:SlidingMenu'
+include ':app', ':app:libs:OpenCV', 'app:libs:SlidingMenu'

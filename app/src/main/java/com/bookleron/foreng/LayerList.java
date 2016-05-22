@@ -68,13 +68,28 @@ public class LayerList {
 
      //   }
     }
-    public static void MoveLayerUp(int index){
+    public static boolean MoveLayerUp(int index){
+        Log.e("POSITION CATION","Prepare up");
         if(index+1 < ImageLayer.size()){
+            Log.e("POSITION CATION","UP");
         //    Collections.swap(ImageLayer,index, index+1);
             Mat temp = ImageLayer.get(index);
             ImageLayer.set(index, ImageLayer.get(index+1));
             ImageLayer.set(index+1, temp);
+            return true;
         }
+        return false;
+    }
+    public static boolean MoveLayerDown(int index){
+        Log.e("POSITION CATION","Prepare down");
+        if(index-1 >= 0){
+            Log.e("POSITION CATION","DOWN");
+            Mat temp = ImageLayer.get(index);
+            ImageLayer.set(index, ImageLayer.get(index-1));
+            ImageLayer.set(index-1, temp);
+            return true;
+        }
+        return false;
     }
     public static void Clear(){ ImageLayer.clear();}
     public static int GetCount(){return ImageLayer.size();}

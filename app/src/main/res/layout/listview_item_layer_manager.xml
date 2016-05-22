@@ -14,7 +14,7 @@
             android:id="@+id/imageView2"
             android:src="@mipmap/ic_launcher"
             android:adjustViewBounds="false"
-            android:scaleType="fitCenter" />
+            android:scaleType="centerCrop" />
 
         <GridLayout
             android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Вниз"
+                android:text="Вверх"
                 android:id="@+id/buttonDown"
                 android:layout_row="0"
                 android:layout_column="0"
@@ -35,7 +35,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Вверх"
+                android:text="Вниз"
                 android:id="@+id/buttonUp"
                 android:layout_row="0"
                 android:layout_column="1" />
@@ -54,7 +54,8 @@
                 android:text="Удалить"
                 android:id="@+id/buttonDelete"
                 android:layout_row="0"
-                android:layout_column="3" />
+                android:layout_column="3"
+                android:onClick="DeleteLayerButton" />
         </GridLayout>
     </TableLayout>
 

@@ -5,18 +5,33 @@
     android:background="#dfdfdc"
     android:weightSum="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Foreng Image Editor"
-        android:id="@+id/textView3"
-        android:layout_margin="10dp" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView4"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Foreng Image Editor"
+            android:id="@+id/textView3"
+            android:layout_margin="10dp"
+            android:layout_row="0"
+            android:layout_column="1" />
+    </GridLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="v. 1.00.00"
+        android:text="v. 1.00"
         android:id="@+id/textView4"
         android:singleLine="false"
         android:layout_margin="10dp" />
@@ -27,18 +42,28 @@
         android:text="Новый проект"
         android:id="@+id/button13"
         android:onClick="NewProjectStart"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        style="@android:style/Widget.Holo.Button" />
 
     <Button
-        android:layout_width="182dp"
+        android:layout_width="184dp"
         android:layout_height="wrap_content"
         android:text="Сохранить"
-        android:id="@+id/button18"
+        android:id="@+id/saveImageButton"
         android:layout_margin="10dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
-        android:onClick="SaveImageResult" />
+        android:onClick="SaveImageResult"
+        style="@android:style/Widget.Holo.Button"
+     />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="© Powered by OpenCV \n© BOOKLERON"
+        android:id="@+id/textView8" />
 
 </LinearLayout>

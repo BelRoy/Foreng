@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
@@ -103,7 +104,7 @@ public class ImageEffect extends Activity{
 
         ImageMat.get(0,0,temp1);
         for(int i =0; i< temp1.length; i++){
-            temp1[i] =(byte)(temp1[i]*0.5);
+            temp1[i] =(byte)(temp1[i]*2);
         }
         ImageMat.put(0, 0, temp1);
 /*        for (int y = 0; y < ImageMat.rows(); y++) {
@@ -155,8 +156,56 @@ public class ImageEffect extends Activity{
         UpdateImagePreview();
     }
     public void Contrast(View view){
-        ImageMat.convertTo(ImageMat,-1,2,0);
+        ShowDialogContrast();
+    }
+    public void ContrastChange(float param){
+        ImageMat.convertTo(ImageMat,-1,param+1,0);
         UpdateImagePreview();
+    }
+    public void ShowDialogContrast(){
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Контраст");
+        View seek = getLayoutInflater().inflate(R.layout.brightness_seek,null);
+
+        final SeekBar seekBar = (SeekBar) seek.findViewById(R.id.seekBarBrightness);
+        final TextView textBar = (TextView) seek.findViewById(R.id.textViewBrightness);
+        seekBar.setMax(200);
+        seekBar.setProgress(100);
+
+        dialog.setPositiveButton("Применить", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ContrastChange((seekBar.getProgress()-100)/100f);
+                dialog.cancel();
+            }
+        });
+        dialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                textBar.setText(String.valueOf(seekBar.getProgress()-100));
+            }
+        });
+        dialog.setView(seek);
+        dialog.create();
+        dialog.show();
     }
     public void ShowDialogBrightness(){
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -199,6 +248,12 @@ public class ImageEffect extends Activity{
         dialog.setView(seek);
         dialog.create();
         dialog.show();
+    }
+    public void GoToCut(View view){
+        LayerList.SetTempMat(ImageMat);
+        Intent goToMove = new Intent(this,CutImage.class);
+        goToMove.putExtra("LayerId", LayerId);
+        startActivity(goToMove);
     }
     public void ShowDialogBlur(){
         //     Mat prevImage = currentMat;

@@ -26,6 +26,7 @@
         <activity android:name=".LayerManager" ></activity>
         <activity android:name=".ImageEffect"></activity>
         <activity android:name=".LayerTransform"></activity>
+        <activity android:name=".CutImage"></activity>
     </application>
 
 </manifest>
